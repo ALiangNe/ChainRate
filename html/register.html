@@ -397,8 +397,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="email">邮箱</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="请输入邮箱" required>
+                    <label for="email">电话</label>
+                    <input type="tel" class="form-control" id="email" name="email" placeholder="请输入电话号码" required>
                 </div>
                 
                 <div class="form-group">
@@ -467,13 +467,19 @@
                 return;
             }
             
+            // 电话号码验证
+            const phone = document.getElementById('email').value;
+            if (phone.length !== 11) {
+                alert('电话号码必须为11位');
+                return;
+            }
+            
             // 其他字段验证
             const studentId = document.getElementById('studentId').value;
             const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
             const terms = document.getElementById('terms').checked;
             
-            if (!studentId || !name || !email || !terms) {
+            if (!studentId || !name || !phone || !terms) {
                 alert('请填写所有必填字段并同意用户协议');
                 return;
             }
