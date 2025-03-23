@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>链评系统 - 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            background-color: #f5f7fa;
+        }
+        
+        .page-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        .left-section {
+            flex: 1;
+            background-color: #1890ff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 40px;
+            background: linear-gradient(135deg, #1890ff 0%, #096dd9 100%);
+            overflow: hidden;
+        }
+        
+        .left-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNNTAsMTBMMTAsNTB2NDBjMCwwLDYwLTE1LDgwLTgwVjUwTDUwLDEweiIvPjwvc3ZnPg==');
+            background-size: 80px;
+            background-repeat: repeat;
+            opacity: 0.1;
+        }
+        
+        .blockchain-image {
+            position: relative;
+            width: 80%;
+            max-width: 400px;
+            margin-bottom: 30px;
+        }
+        
+        .blockchain-image svg {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.2));
+        }
+        
+        .left-content {
+            position: relative;
+            text-align: center;
+            z-index: 1;
+        }
+        
+        .left-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .left-content p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+        
+        .right-section {
+            flex: 1;
+            background-color: #fff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: #1890ff;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .form-control {
+            width: 100%;
+            height: 45px;
+            border: 1px solid #e8e8e8;
+            border-radius: 6px;
+            padding: 0 15px;
+            font-size: 14px;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: #1890ff;
+            box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+            outline: none;
+        }
+        
+        .btn {
+            width: 100%;
+            height: 45px;
+            background: linear-gradient(to right, #1890ff, #096dd9);
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(to right, #40a9ff, #1890ff);
+            box-shadow: 0 5px 15px rgba(24, 144, 255, 0.3);
+        }
+        
+        .links {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .links a {
+            color: #1890ff;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        
+        .links a:hover {
+            color: #096dd9;
+            text-decoration: underline;
+        }
+        
+        .remember {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .remember input {
+            margin-right: 10px;
+        }
+        
+        .remember label {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .floating-blocks {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .block {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            animation: float 15s infinite ease-in-out;
+        }
+        
+        .block:nth-child(1) {
+            width: 60px;
+            height: 60px;
+            top: 20%;
+            left: 30%;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+        
+        .block:nth-child(2) {
+            width: 80px;
+            height: 80px;
+            top: 60%;
+            left: 10%;
+            animation-delay: 2s;
+            animation-duration: 22s;
+        }
+        
+        .block:nth-child(3) {
+            width: 50px;
+            height: 50px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 4s;
+            animation-duration: 16s;
+        }
+        
+        .block:nth-child(4) {
+            width: 70px;
+            height: 70px;
+            top: 70%;
+            left: 60%;
+            animation-delay: 6s;
+            animation-duration: 20s;
+        }
+        
+        .block:nth-child(5) {
+            width: 40px;
+            height: 40px;
+            top: 10%;
+            left: 20%;
+            animation-delay: 8s;
+            animation-duration: 25s;
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+            50% {
+                transform: translateY(0) rotate(0deg);
+            }
+            75% {
+                transform: translateY(30px) rotate(-5deg);
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .page-container {
+                flex-direction: column;
+                height: auto;
+                max-width: 100%;
+                border-radius: 0;
+            }
+            
+            .left-section, .right-section {
+                flex: auto;
+            }
+            
+            .left-section {
+                padding: 40px 20px;
+            }
+            
+            .blockchain-image {
+                width: 60%;
+                margin-bottom: 20px;
+            }
+            
+            .left-content h2 {
+                font-size: 24px;
+            }
+            
+            .left-content p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- 左侧区块链图片区域 -->
+        <div class="left-section">
+            <div class="floating-blocks">
+                <div class="block"></div>
+                <div class="block"></div>
+                <div class="block"></div>
+                <div class="block"></div>
+                <div class="block"></div>
+            </div>
+            
+            <div class="blockchain-image">
+                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#ffffff" fill-opacity="0.9" d="M400,100 L200,200 L200,400 L400,500 L600,400 L600,200 Z" />
+                    <path fill="#ffffff" fill-opacity="0.7" d="M400,150 L250,225 L250,375 L400,450 L550,375 L550,225 Z" />
+                    <path fill="#ffffff" fill-opacity="0.5" d="M400,200 L300,250 L300,350 L400,400 L500,350 L500,250 Z" />
+                    <line x1="200" y1="200" x2="250" y2="225" stroke="#ffffff" stroke-width="3" />
+                    <line x1="200" y1="400" x2="250" y2="375" stroke="#ffffff" stroke-width="3" />
+                    <line x1="400" y1="500" x2="400" y2="450" stroke="#ffffff" stroke-width="3" />
+                    <line x1="600" y1="400" x2="550" y2="375" stroke="#ffffff" stroke-width="3" />
+                    <line x1="600" y1="200" x2="550" y2="225" stroke="#ffffff" stroke-width="3" />
+                    <line x1="400" y1="100" x2="400" y2="150" stroke="#ffffff" stroke-width="3" />
+                    <circle cx="400" cy="100" r="20" fill="#ffffff" />
+                    <circle cx="200" cy="200" r="20" fill="#ffffff" />
+                    <circle cx="200" cy="400" r="20" fill="#ffffff" />
+                    <circle cx="400" cy="500" r="20" fill="#ffffff" />
+                    <circle cx="600" cy="400" r="20" fill="#ffffff" />
+                    <circle cx="600" cy="200" r="20" fill="#ffffff" />
+                    <circle cx="400" cy="150" r="10" fill="#ffffff" />
+                    <circle cx="250" cy="225" r="10" fill="#ffffff" />
+                    <circle cx="250" cy="375" r="10" fill="#ffffff" />
+                    <circle cx="400" cy="450" r="10" fill="#ffffff" />
+                    <circle cx="550" cy="375" r="10" fill="#ffffff" />
+                    <circle cx="550" cy="225" r="10" fill="#ffffff" />
+                </svg>
+            </div>
+            
+            <div class="left-content">
+                <h2>链评系统</h2>
+                <p>基于区块链技术的创新型校园课程评价平台，通过安全、透明的数据管理机制，构建学生、教师与教育管理者之间的信任桥梁。</p>
+            </div>
+        </div>
+        
+        <!-- 右侧登录表单区域 -->
+        <div class="right-section">
+            <div class="logo">
+                <h1>用户登录</h1>
+                <p>欢迎使用链评系统</p>
+            </div>
+            
+            <form action="#" method="post" id="loginForm">
+                <div class="form-group">
+                    <label for="username">学号/邮箱</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="请输入学号或邮箱" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="请输入密码" required>
+                </div>
+                
+                <div class="remember">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">记住我</label>
+                </div>
+                
+                <button type="submit" class="btn">登 录</button>
+                
+                <div class="links">
+                    <a href="register.html">注册账号</a>
+                    <a href="#">忘记密码?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // 这里只是模拟登录，实际项目中应该发送请求到后端API
+            if (username && password) {
+                alert('登录请求已发送，实际项目中这里会连接到后端API');
+                // 实际项目中应该使用fetch或axios发送请求到后端
+                // 例如: window.location.href = '/dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html> 
